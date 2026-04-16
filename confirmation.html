@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Confirmed - AutoCare Workshop</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">🔧 AutoCare Workshop</h1>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/schedule">Schedule Appointment</a></li>
+                <li><a href="/appointments">View Appointments</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="confirmation-box">
+            <div class="success-icon">✅</div>
+            <h2>Appointment Confirmed!</h2>
+            <p>Your appointment has been scheduled successfully.</p>
+            
+            <div class="appointment-details">
+                <h3>Appointment Details</h3>
+                <p><strong>Appointment ID:</strong> #{{ appointment.id }}</p>
+                <p><strong>Name:</strong> {{ appointment.customer_name }}</p>
+                <p><strong>Date:</strong> {{ appointment.appointment_date }}</p>
+                <p><strong>Time:</strong> {{ appointment.appointment_time }}</p>
+                <p><strong>Car:</strong> {{ appointment.car_make }} {{ appointment.car_model }} ({{ appointment.car_year }})</p>
+                <p><strong>License Plate:</strong> {{ appointment.car_license }}</p>
+                <p><strong>Service:</strong> {{ appointment.service_type }}</p>
+                {% if appointment.car_issues %}
+                <p><strong>Issues:</strong> {{ appointment.car_issues }}</p>
+                {% endif %}
+                <p><strong>Status:</strong> <span class="status-pending">{{ appointment.status }}</span></p>
+            </div>
+            
+            <div class="reminder">
+                <h4>📌 Reminder:</h4>
+                <p>Please arrive 10 minutes before your appointment time.</p>
+                <p>Call us if you need to reschedule or cancel.</p>
+            </div>
+            
+            <div class="action-buttons">
+                <a href="/" class="btn btn-secondary">Back to Home</a>
+                <a href="/appointments" class="btn btn-primary">View All Appointments</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Appointments - AutoCare Workshop</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">🔧 AutoCare Workshop</h1>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/schedule">Schedule Appointment</a></li>
+                <li><a href="/appointments">View Appointments</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>All Appointments</h2>
+        
+        {% if appointments %}
+            <div class="appointments-list">
+                {% for apt in appointments %}
+                <div class="appointment-card {% if apt.status == 'cancelled' %}cancelled{% endif %}">
+                    <div class="appointment-header">
+                        <strong>#{{ apt.id }}</strong> - {{ apt.customer_name }}
+                        <span class="status-badge status-{{ apt.status }}">{{ apt.status }}</span>
+                    </div>
+                    <div class="appointment-body">
+                        <div class="appointment-info">
+                            <p><strong>📅 Date:</strong> {{ apt.appointment_date }}</p>
+                            <p><strong>⏰ Time:</strong> {{ apt.appointment_time }}</p>
+                            <p><strong>🚗 Car:</strong> {{ apt.car_make }} {{ apt.car_model }} ({{ apt.car_year }})</p>
+                            <p><strong>🔢 License:</strong> {{ apt.car_license }}</p>
+                            <p><strong>🔧 Service:</strong> {{ apt.service_type }}</p>
+                            <p><strong>📞 Contact:</strong> {{ apt.customer_phone }} | {{ apt.customer_email }}</p>
+                            {% if apt.car_issues %}
+                            <p><strong>⚠️ Issues:</strong> {{ apt.car_issues }}</p>
+                            {% endif %}
+                        </div>
+                        {% if apt.status != 'cancelled' %}
+                        <div class="appointment-actions">
+                            <a href="/cancel/{{ apt.id }}" class="btn-cancel" onclick="return confirm('Cancel this appointment?')">Cancel</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-appointments">
+                <p>No appointments scheduled yet.</p>
+                <a href="/schedule" class="btn btn-primary">Schedule First Appointment</a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
